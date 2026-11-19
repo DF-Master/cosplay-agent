@@ -581,7 +581,7 @@ class Editor:
         self.text.bind("<Shift-Return>", lambda e: None)
         root.bind("<Escape>", lambda e: self.cancel())
 
-        self.idle_hint = "Enter 写入飞书 · Shift+Enter 换行 · Esc 取消"
+        self.idle_hint = "Enter 写入 · Shift+Enter 换行 · Esc 取消"
         self.set_status(self.idle_hint)
 
         root.update_idletasks()
@@ -709,7 +709,7 @@ def main():
         pass
 
     # 单实例
-    kernel32.CreateMutexW(None, False, "Local\\FeishuAgentPrefix")
+    kernel32.CreateMutexW(None, False, "Local\\CosplayAgent")
     if ctypes.get_last_error() == 183:  # ERROR_ALREADY_EXISTS
         return
 
@@ -737,7 +737,7 @@ def main():
         target=hotkey_thread, args=(cfg["hotkey"], events), daemon=True
     ).start()
 
-    print("飞书 AI Agent 前缀助手已启动，热键 %s"
+    print("Cosplay Agent 已启动，热键 %s"
           % "+".join(hotkey_parts(cfg["hotkey"])))
     dispatch()
     root.mainloop()
