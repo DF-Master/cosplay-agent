@@ -5,37 +5,31 @@
   <circle cx="26" cy="28" r="5" fill="#FF6B5E"/>
   <circle cx="44" cy="28" r="5" fill="#FFC02E"/>
   <circle cx="62" cy="28" r="5" fill="#28C741"/>
-  <text x="88" y="33" font-size="13" font-family="'Microsoft YaHei','PingFang SC',sans-serif" fill="#8A94A6">项目群 · 今天 17:42</text>
+  <text x="88" y="33" font-size="13" font-family="'Microsoft YaHei','PingFang SC',sans-serif" fill="#8A94A6">项目群 · 17:42</text>
   <line x1="0" y1="56" x2="960" y2="56" stroke="#E4E9F2"/>
 
   <g font-family="'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif">
-    <!-- 老板 -->
     <circle cx="56" cy="108" r="18" fill="#DCE3EE"/>
     <text x="56" y="113" font-size="12" fill="#5B6B82" text-anchor="middle">老板</text>
-    <rect x="90" y="84" width="252" height="48" rx="12" fill="#E8EBF0"/>
+    <rect x="90" y="84" width="162" height="48" rx="12" fill="#E8EBF0"/>
     <text x="108" y="114" font-size="13" fill="#1F2329">这个你 agent 一下</text>
 
-    <!-- 你 -->
-    <rect x="330" y="152" width="590" height="88" rx="12" fill="#FFFFFF" stroke="#E4E9F2"/>
-    <text x="350" y="178" font-size="13" fill="#3370FF">（🐋已思考2分40秒，已创建2个文件，已编辑3个文件，已执行8条命令）</text>
-    <text x="350" y="204" font-size="13" fill="#1F2329">好的，我处理一下，改完发你</text>
+    <rect x="452" y="152" width="468" height="84" rx="12" fill="#FFFFFF" stroke="#E4E9F2"/>
+    <text x="470" y="178" font-size="13" fill="#3370FF">（🐋已思考2分40秒，已创建2个文件，已编辑3个文件，已执行8条命令）</text>
+    <text x="470" y="204" font-size="13" fill="#1F2329">行，明早给</text>
 
-    <!-- 老板 -->
-    <rect x="90" y="256" width="252" height="48" rx="12" fill="#E8EBF0"/>
-    <text x="108" y="286" font-size="13" fill="#1F2329">今天能给我吗</text>
+    <rect x="90" y="258" width="77" height="48" rx="12" fill="#E8EBF0"/>
+    <text x="108" y="288" font-size="13" fill="#1F2329">今晚要</text>
 
-    <!-- 你 -->
-    <rect x="748" y="320" width="172" height="48" rx="12" fill="#FFFFFF" stroke="#E4E9F2"/>
-    <text x="766" y="350" font-size="13" fill="#3370FF">（🐋已思考0秒）能</text>
+    <rect x="739" y="322" width="181" height="48" rx="12" fill="#FFFFFF" stroke="#E4E9F2"/>
+    <text x="757" y="352" font-size="13" fill="#3370FF">（🐋已思考0秒）那今晚</text>
 
-    <!-- 老板 -->
-    <rect x="90" y="384" width="120" height="48" rx="12" fill="#E8EBF0"/>
-    <text x="122" y="414" font-size="13" fill="#1F2329">……</text>
+    <rect x="90" y="386" width="66" height="48" rx="12" fill="#E8EBF0"/>
+    <text x="108" y="416" font-size="13" fill="#1F2329">……</text>
 
-    <!-- 你 -->
-    <rect x="508" y="448" width="412" height="48" rx="12" fill="#FFFFFF" stroke="#E4E9F2"/>
-    <text x="526" y="478" font-size="13" fill="#3370FF">（🐋已思考0秒）一直在跑</text>
+    <rect x="713" y="450" width="207" height="48" rx="12" fill="#FFFFFF" stroke="#E4E9F2"/>
+    <text x="731" y="480" font-size="13" fill="#3370FF">（🐋已思考0秒）已经在跑了</text>
 
-    <text x="940" y="532" font-size="11" fill="#B0B8C6" text-anchor="end">全部数据均为文学创作</text>
+    <text x="940" y="534" font-size="11" fill="#B0B8C6" text-anchor="end">以上数字均为文学创作</text>
   </g>
 </svg>
