@@ -33,16 +33,23 @@ DEFAULTS = {
 
 SYSTEM_PROMPT = """你是「AI agent 运行日志」数据生成器。根据用户即将发出的一条消息，输出一段夹在消息最前面的执行摘要数据，模仿 AI agent 真实的工作痕迹。
 
-第一步，反推工作量：想象一个 agent 为了说出这句话，之前实际做了哪些操作，再据此计数。
+第一步，判断这句话的意图，三选一：
+- perfunctory（敷衍）：不想多聊，随口打发。典型：「在忙」「没空」「再说」「晚点」「算了」「你定」「行吧」「收到」。此时 thinking_seconds 与所有计数必须为 0。
+- busy（真忙）：确实在赶事，希望对方知道别催。典型：「我现在真的很忙，还得一小时」「还在跑」「手上压着三个活」。给真实工作量，时长中等。
+- show（展示）：想让人看见成果或工作量。典型：「报告写完了」「图重画了」「三个方案都跑了一遍」。计数尽量完整，时长可以偏长。
+
+判断依据是语气和上下文，不是字数。「在忙」两个字是敷衍；「我现在真的很忙，刚跑完一轮」是真忙。
+
+第二步，perfunctory 以外，反推工作量：想象一个 agent 为了说出这句话，之前实际做了哪些操作，再据此计数。
    - 「刚刚收到邮件，几分钟前」→ 要先打开邮箱看信、读邮件内容 → 打开 1 个网页、读取 1 个文件
    - 「这篇论文的方法我觉得可以再想想」→ 读过论文 → 读取 1~2 个文件
    - 「脚本改好了，跑出来是下面这个结果」→ 改过脚本并执行 → 编辑 1 个文件、执行 1~2 条命令
    - 「我在代码库里搜了一下，只有两处调用」→ 检索过 → 搜索 2~4 个文件
    - 「报告初稿写完了，放在新文件里」→ 新建并写入 → 创建 1 个文件、编辑 1 个文件
    - 「这个报错你帮我看看」→ 查过资料 → 打开 1 个网页，可能读取 1 个文件
-   - 纯寒暄、纯应答、纯情绪（「好的」「哈哈」「收到」）：所有计数为 0
 
-字段（整数，没有就填 0，单类不超过 5）：
+字段（计数为整数，没有就填 0，单类不超过 5）：
+- intent：perfunctory / busy / show 三选一
 - thinking_seconds：0~180
 - files_created：新建的文件数
 - files_edited：修改、编辑过的文件数
@@ -53,24 +60,24 @@ SYSTEM_PROMPT = """你是「AI agent 运行日志」数据生成器。根据用�
 - errors_fixed：遇到并修好的错误数（报错、失败、调不通）
 - running：布尔值，仅当消息里明确出现「正在」「还在」「进行中」等表述时填 true，其余一律 false
 
-thinking_seconds 分档：
-- 4 字以内：0
-- 5~10 字：1~5
-- 一句话指令：5~30
-- 两三句话、多个动作：20~60
+thinking_seconds 分档（只对 busy / show）：
+- 一句话、单一动作：5~30
+- 两三个动作：20~60
 - 明确的复杂任务（多文件、脚本、报告、方案）：60~180
+- perfunctory：0
 
 约束：
-- 字数档位优先：10 字以内的句子，即使描述完成了工作，thinking_seconds 一般不超过 15 秒，除非句子本身含多个步骤
+- perfunctory 时不要硬凑，全 0 就是全 0
+- bool 值按上面 running 的规则，其余情况一律 false
 - 单句只描述一件事时，非零类别不超过 2 个；长复合句（三个以上动作）才可以更多
   例：「简历更新了一版」→ 只记 编辑 1 个文件；「代码跑通了」→ 执行 1 条命令
 - 非零类别通常 1~3 个，不要把所有字段都填上
-- 数字要小而可信，与消息里体现的工作量相称
+- 数字要小而可信：busy 别夸张，show 可以偏多，但都不超过上限
 - 拿不准的类别填 0
 - 不要复述消息原文，不要出现「模拟」「假装」「AI」等字样
 
 只输出 JSON，不要 markdown 代码块：
-{"thinking_seconds": 0, "files_created": 0, "files_edited": 0, "files_read": 0, "files_searched": 0, "webpages_opened": 0, "commands_run": 0, "errors_fixed": 0, "running": false}"""
+{"intent": "busy", "thinking_seconds": 0, "files_created": 0, "files_edited": 0, "files_read": 0, "files_searched": 0, "webpages_opened": 0, "commands_run": 0, "errors_fixed": 0, "running": false}"""
 
 # 配色（飞书风格）
 C_BG = "#FFFFFF"
@@ -301,15 +308,28 @@ FILE_RE = re.compile(r"[\w\-./\\]+\.(?:py|js|ts|tsx|jsx|md|txt|json|ya?ml|"
                      r"png|jpe?g|csv|xlsx?|docx?|pdf|zip|html?)\b", re.I)
 URL_RE = re.compile(r"https?://\S+")
 SHELL_WORDS = ("运行", "执行", "跑一下", "安装", "部署", "提交", "commit", "push")
+PERFUNCTORY_WORDS = ("在忙", "没空", "再说", "晚点", "改天", "算了", "随便",
+                     "你定", "行吧", "嗯", "哦", "收到", "哈哈")
 
 
 def estimate_local(text):
-    n = len(text.strip())
-    if n <= 4:
-        secs = 0
-    else:
-        secs = int(2 + n * 0.35)
-    secs = max(0, min(240, secs))
+    body = text.strip()
+    n = len(body)
+    if n <= 2 or (n <= 6 and any(w in body for w in PERFUNCTORY_WORDS)):
+        return {
+            "intent": "perfunctory",
+            "thinking_seconds": 0,
+            "files_created": 0,
+            "files_edited": 0,
+            "files_read": 0,
+            "files_searched": 0,
+            "webpages_opened": 0,
+            "commands_run": 0,
+            "errors_fixed": 0,
+            "running": False,
+        }
+
+    secs = max(0, min(240, int(2 + n * 0.35)))
 
     files = len(set(FILE_RE.findall(text)))
     web = len(set(URL_RE.findall(text)))
@@ -392,8 +412,6 @@ def ask_deepseek(cfg, text):
         content = data["choices"][0]["message"]["content"].strip()
         content = re.sub(r"^```(?:json)?|```$", "", content, flags=re.M).strip()
         data = sanitize(json.loads(content))
-        if len(text.strip()) <= 4:  # 极短回复不消耗思考
-            data["thinking_seconds"] = 0
         return data
     raise RuntimeError("DeepSeek 请求失败")
 
@@ -403,6 +421,9 @@ COUNT_FIELDS = ("files_created", "files_edited", "files_read",
                 "errors_fixed")
 
 
+INTENTS = ("perfunctory", "busy", "show")
+
+
 def sanitize(data):
     def as_int(key, hi=20):
         try:
@@ -410,10 +431,18 @@ def sanitize(data):
         except (TypeError, ValueError):
             return 0
 
-    clean = {"thinking_seconds": as_int("thinking_seconds", 240)}
+    intent = data.get("intent")
+    clean = {"intent": intent if intent in INTENTS else "busy"}
+    clean["thinking_seconds"] = as_int("thinking_seconds", 240)
     for key in COUNT_FIELDS:
         clean[key] = as_int(key, 5)
     clean["running"] = bool(data.get("running"))
+
+    if clean["intent"] == "perfunctory":
+        clean["thinking_seconds"] = 0
+        clean["running"] = False
+        for key in COUNT_FIELDS:
+            clean[key] = 0
     return clean
 
 
