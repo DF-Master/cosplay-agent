@@ -15,7 +15,7 @@
     <text x="108" y="114" font-size="13" fill="#1F2329">这个你 agent 一下</text>
 
     <rect x="452" y="152" width="468" height="84" rx="12" fill="#FFFFFF" stroke="#E4E9F2"/>
-    <text x="470" y="178" font-size="13" fill="#3370FF">（🐋已思考2分40秒，已创建2个文件，已编辑3个文件，已执行8条命令）</text>
+    <text x="470" y="178" font-size="13" fill="#3370FF">（🐋已思考2分40秒，创建2个文件，编辑3个文件，执行8条命令）</text>
     <text x="470" y="204" font-size="13" fill="#1F2329">行，明早给</text>
 
     <rect x="90" y="258" width="77" height="48" rx="12" fill="#E8EBF0"/>

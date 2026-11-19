@@ -25,19 +25,19 @@
 
     <!-- 消息 2 -->
     <rect x="356" y="164" width="564" height="92" rx="12" fill="#FFFFFF"/>
-    <text x="374" y="190" font-size="13" fill="#3370FF">（🐋已思考1分35秒，已创建1个文件，已编辑1个文件）</text>
+    <text x="374" y="190" font-size="13" fill="#3370FF">（🐋已思考1分35秒，创建1个文件，编辑1个文件）</text>
     <text x="374" y="214" font-size="13" fill="#1F2329">报告初稿写完了，放在新文件里，</text>
     <text x="374" y="236" font-size="13" fill="#1F2329">图表部分我再补一版。</text>
 
     <!-- 消息 3 -->
     <rect x="452" y="278" width="468" height="92" rx="12" fill="#FFFFFF"/>
-    <text x="470" y="304" font-size="13" fill="#3370FF">（🐋已思考8秒，已执行1条命令，正在执行命令）</text>
+    <text x="470" y="304" font-size="13" fill="#3370FF">（🐋已思考8秒，执行1条命令，正在执行命令）</text>
     <text x="470" y="328" font-size="13" fill="#1F2329">还在等结果，应该快了，</text>
     <text x="470" y="350" font-size="13" fill="#1F2329">跑完我第一时间发出来。</text>
 
     <!-- 消息 4 -->
     <rect x="332" y="392" width="588" height="92" rx="12" fill="#FFFFFF"/>
-    <text x="350" y="418" font-size="13" fill="#3370FF">（🐋已思考25秒，已读取2个文件，已打开1个网页）</text>
+    <text x="350" y="418" font-size="13" fill="#3370FF">（🐋已思考25秒，读取2个文件，打开1个网页）</text>
     <text x="350" y="442" font-size="13" fill="#1F2329">这篇论文的方法我觉得可以再想想，</text>
     <text x="350" y="464" font-size="13" fill="#1F2329">消融实验少了两个关键对照。</text>
 
