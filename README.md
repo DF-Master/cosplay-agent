@@ -70,6 +70,8 @@
 
 ## 快速开始
 
+> **本仓库不含任何 API Key。** 你需要自己的 DeepSeek Key，写进本地 `config.json`——这个文件已被 `.gitignore` 忽略，不会进版本库。
+
 **1. 拿一个 DeepSeek Key**（[platform.deepseek.com](https://platform.deepseek.com)），约 1 秒 1 次调用，成本可以忽略。
 
 **2. 克隆并配置**
@@ -127,7 +129,7 @@ $s.Save()
 ## 隐私
 
 - 只会把**你输入的那一句话**发给 DeepSeek，不读聊天记录，不截屏，不联外网其它服务
-- Key 保存在本地 `config.json`，已在 `.gitignore` 里
+- 仓库内没有任何明文 Key；`config.json` 在 `.gitignore` 中，只存在于你自己的机器
 - 没有服务端，没有账号体系
 
 ## 一些实话
