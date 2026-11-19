@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600" role="img" aria-label="效果演示">
+  <defs>
+    <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#EDF1F7"/>
+      <stop offset="1" stop-color="#E6EBF3"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="960" height="600" rx="16" fill="url(#wall)"/>
+
+  <g font-family="'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif">
+    <!-- 窗口标题栏 -->
+    <rect x="0" y="0" width="960" height="56" rx="16" fill="#FFFFFF"/>
+    <rect x="0" y="40" width="960" height="16" fill="#FFFFFF"/>
+    <circle cx="26" cy="28" r="5" fill="#FF6B5E"/>
+    <circle cx="44" cy="28" r="5" fill="#FFC02E"/>
+    <circle cx="62" cy="28" r="5" fill="#28C741"/>
+    <text x="88" y="33" font-size="13" fill="#8A94A6">项目群（6）</text>
+    <line x1="0" y1="56" x2="960" y2="56" stroke="#E4E9F2"/>
+
+    <!-- 消息 1 -->
+    <rect x="622" y="84" width="298" height="58" rx="12" fill="#FFFFFF"/>
+    <text x="640" y="108" font-size="13" fill="#8F959E">（🐋已思考0秒）</text>
+    <text x="640" y="128" font-size="13" fill="#1F2329">好的，我看下</text>
+
+    <!-- 消息 2 -->
+    <rect x="356" y="164" width="564" height="92" rx="12" fill="#FFFFFF"/>
+    <text x="374" y="190" font-size="13" fill="#3370FF">（🐋已思考1分35秒，已创建1个文件，已编辑1个文件）</text>
+    <text x="374" y="214" font-size="13" fill="#1F2329">报告初稿写完了，放在新文件里，</text>
+    <text x="374" y="236" font-size="13" fill="#1F2329">图表部分我再补一版。</text>
+
+    <!-- 消息 3 -->
+    <rect x="452" y="278" width="468" height="92" rx="12" fill="#FFFFFF"/>
+    <text x="470" y="304" font-size="13" fill="#3370FF">（🐋已思考8秒，已执行1条命令，正在执行命令）</text>
+    <text x="470" y="328" font-size="13" fill="#1F2329">还在等结果，应该快了，</text>
+    <text x="470" y="350" font-size="13" fill="#1F2329">跑完我第一时间发出来。</text>
+
+    <!-- 消息 4 -->
+    <rect x="332" y="392" width="588" height="92" rx="12" fill="#FFFFFF"/>
+    <text x="350" y="418" font-size="13" fill="#3370FF">（🐋已思考25秒，已读取2个文件，已打开1个网页）</text>
+    <text x="350" y="442" font-size="13" fill="#1F2329">这篇论文的方法我觉得可以再想想，</text>
+    <text x="350" y="464" font-size="13" fill="#1F2329">消融实验少了两个关键对照。</text>
+
+    <!-- 正在输入 -->
+    <circle cx="404" cy="512" r="4" fill="#B8C2D0"/>
+    <circle cx="422" cy="512" r="4" fill="#B8C2D0"/>
+    <circle cx="440" cy="512" r="4" fill="#B8C2D0"/>
+
+    <!-- 输入框 -->
+    <rect x="32" y="536" width="896" height="44" rx="12" fill="#FFFFFF" stroke="#E4E9F2"/>
+    <text x="52" y="563" font-size="13" fill="#B0B8C6">按 Ctrl + Alt + Shift + Space 开始扮演…</text>
+    <rect x="856" y="546" width="56" height="24" rx="8" fill="#3370FF"/>
+    <text x="868" y="562" font-size="11" fill="#FFFFFF" font-weight="700">Enter</text>
+  </g>
+</svg>

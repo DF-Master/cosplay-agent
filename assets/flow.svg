@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="260" viewBox="0 0 1000 260" role="img" aria-label="工作流程">
+  <defs>
+    <marker id="arw" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#4D8DFF"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="260" fill="#0F172A"/>
+
+  <g font-family="'Microsoft YaHei','PingFang SC','Noto Sans SC',sans-serif">
+    <!-- 步骤 1 -->
+    <rect x="40" y="70" width="200" height="120" rx="14" fill="#152340" stroke="#2C4570"/>
+    <text x="64" y="104" font-size="12" letter-spacing="1" fill="#6E8FBF">STEP 01</text>
+    <text x="64" y="136" font-size="17" font-weight="700" fill="#EAF2FF">按下热键</text>
+    <text x="64" y="164" font-size="12" fill="#8FA8CC">Ctrl+Alt+Shift+Space</text>
+
+    <!-- 步骤 2 -->
+    <rect x="280" y="70" width="200" height="120" rx="14" fill="#152340" stroke="#2C4570"/>
+    <text x="304" y="104" font-size="12" letter-spacing="1" fill="#6E8FBF">STEP 02</text>
+    <text x="304" y="136" font-size="17" font-weight="700" fill="#EAF2FF">写下要说的话</text>
+    <text x="304" y="164" font-size="12" fill="#8FA8CC">回车，窗口自动隐去</text>
+
+    <!-- 步骤 3 -->
+    <rect x="520" y="70" width="200" height="120" rx="14" fill="#152340" stroke="#2C4570"/>
+    <text x="544" y="104" font-size="12" letter-spacing="1" fill="#6E8FBF">STEP 03</text>
+    <text x="544" y="136" font-size="17" font-weight="700" fill="#EAF2FF">推断工作量</text>
+    <text x="544" y="164" font-size="12" fill="#8FA8CC">思考时长 · 文件 · 命令</text>
+
+    <!-- 步骤 4 -->
+    <rect x="760" y="70" width="200" height="120" rx="14" fill="#152340" stroke="#2C4570"/>
+    <text x="784" y="104" font-size="12" letter-spacing="1" fill="#6E8FBF">STEP 04</text>
+    <text x="784" y="136" font-size="17" font-weight="700" fill="#EAF2FF">写回输入框</text>
+    <text x="784" y="164" font-size="12" fill="#8FA8CC">不自动发送，你确认</text>
+
+    <!-- 箭头 -->
+    <line x1="248" y1="130" x2="272" y2="130" stroke="#4D8DFF" stroke-width="2" marker-end="url(#arw)"/>
+    <line x1="488" y1="130" x2="512" y2="130" stroke="#4D8DFF" stroke-width="2" marker-end="url(#arw)"/>
+    <line x1="728" y1="130" x2="752" y2="130" stroke="#4D8DFF" stroke-width="2" marker-end="url(#arw)"/>
+
+    <text x="40" y="228" font-size="12" fill="#5C769B">目标窗口是输入框（飞书 / 微信 / QQ / 浏览器…）才自动粘贴，否则只进剪贴板。</text>
+  </g>
+</svg>

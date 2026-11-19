@@ -1,0 +1,8 @@
+{
+  "api_key": "sk-your-deepseek-key",
+  "base_url": "https://api.deepseek.com",
+  "model": "deepseek-chat",
+  "hotkey": "ctrl+alt+shift+space",
+  "timeout": 10,
+  "auto_send": false
+}
