@@ -51,8 +51,10 @@ SYSTEM_PROMPT = """你是「AI agent 运行日志」数据生成器。根据用�
    - 「得延期」→ 拉过整条链路 → 读取 4~6 个文件、执行 1~2 条命令
    - 「本周啥也没干」→ 反讽式周报，计数拉满 → 编辑 5 个文件、执行 8~12 条命令
    - 「另请高明吧」→ 看过现状才敢这么说 → 读取 2 个文件
+   - 「把这份 PDF 转成表格，再画个趋势图」→ 连着用了两个技能 → 读取 1 个文件、调用 2 个技能
+   - 「这段英文翻一下，顺便润色」→ 翻译和润色各是一个技能 → 调用 2 个技能
 
-字段（计数为整数，没有就填 0；文件、网页、错误每类不超过 5，命令不超过 20）：
+字段（计数为整数，没有就填 0；文件、网页、技能、错误每类不超过 5，命令不超过 20）：
 - intent：perfunctory / busy / show 三选一
 - thinking_seconds：0~180
 - files_created：新建的文件数
@@ -61,6 +63,7 @@ SYSTEM_PROMPT = """你是「AI agent 运行日志」数据生成器。根据用�
 - files_searched：检索、搜索过的文件数
 - webpages_opened：打开过的网页数
 - commands_run：执行过的命令数
+- skills_used：调用过的技能数（翻译、转格式、画图、总结、检索这类成体系的能力，一个能力算一个）
 - errors_fixed：遇到并修好的错误数（报错、失败、调不通）
 - running：布尔值，仅当消息里明确出现「正在」「还在」「进行中」等表述时填 true，其余一律 false
 
@@ -75,13 +78,13 @@ thinking_seconds 分档：
 - 单句只描述一件事、且判为 busy 时，非零类别不超过 2 个；show 和长复合句可以更多
   例：「简历更新了一版」→ 只记 编辑 1 个文件；「代码跑通了」→ 执行 1 条命令
 - 数字要小而可信：busy 别夸张，show 可以偏多，但都不超过上限
-- 只填与句子直接相关的类别：没提报错就不填 errors_fixed，没提网页就不填 webpages_opened
+- 只填与句子直接相关的类别：没提报错就不填 errors_fixed，没提网页就不填 webpages_opened，没用到成体系的能力就不填 skills_used
 - 成果类（写完、做好、画完）通常 2~3 类，靠时长体现分量；周报、延期、甩锅这类要"证据"的，才铺开到 4~7 类
 - 拿不准的类别填 0
 - 不要复述消息原文，不要出现「模拟」「假装」「AI」等字样
 
 只输出 JSON，不要 markdown 代码块：
-{"intent": "busy", "thinking_seconds": 0, "files_created": 0, "files_edited": 0, "files_read": 0, "files_searched": 0, "webpages_opened": 0, "commands_run": 0, "errors_fixed": 0, "running": false}"""
+{"intent": "busy", "thinking_seconds": 0, "files_created": 0, "files_edited": 0, "files_read": 0, "files_searched": 0, "webpages_opened": 0, "commands_run": 0, "skills_used": 0, "errors_fixed": 0, "running": false}"""
 
 # 配色（飞书风格）
 C_BG = "#FFFFFF"
@@ -314,6 +317,7 @@ URL_RE = re.compile(r"https?://\S+")
 SHELL_WORDS = ("运行", "执行", "跑一下", "安装", "部署", "提交", "commit", "push")
 PERFUNCTORY_WORDS = ("在忙", "没空", "再说", "晚点", "改天", "算了", "随便",
                      "你定", "行吧", "嗯", "哦", "收到", "哈哈")
+SKILL_WORDS = ("翻译", "转成", "转换", "总结", "画图", "绘图", "润色", "整理", "分析")
 
 
 def estimate_local(text):
@@ -329,6 +333,7 @@ def estimate_local(text):
             "files_searched": 0,
             "webpages_opened": 0,
             "commands_run": 0,
+            "skills_used": 0,
             "errors_fixed": 0,
             "running": False,
         }
@@ -341,6 +346,7 @@ def estimate_local(text):
     cmds = sum(1 for ln in lines if ln.strip().startswith(("$", ">", "#!")))
     cmds += sum(text.count(w) for w in SHELL_WORDS)
     cmds = min(20, cmds)
+    skills = min(3, sum(body.count(w) for w in SKILL_WORDS))
 
     return {
         "thinking_seconds": secs,
@@ -350,6 +356,7 @@ def estimate_local(text):
         "files_searched": 0,
         "webpages_opened": web,
         "commands_run": cmds,
+        "skills_used": skills,
         "errors_fixed": 0,
         "running": False,
     }
@@ -422,7 +429,7 @@ def ask_deepseek(cfg, text):
 
 COUNT_FIELDS = ("files_created", "files_edited", "files_read",
                 "files_searched", "webpages_opened", "commands_run",
-                "errors_fixed")
+                "skills_used", "errors_fixed")
 
 
 INTENTS = ("perfunctory", "busy", "show")
@@ -468,6 +475,7 @@ COUNT_LABELS = (
     ("files_searched", "搜索%d个文件"),
     ("webpages_opened", "打开%d个网页"),
     ("commands_run", "执行%d条命令"),
+    ("skills_used", "调用%d个技能"),
     ("errors_fixed", "修复%d个错误"),
 )
 
